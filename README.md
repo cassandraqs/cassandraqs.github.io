@@ -14,8 +14,11 @@
 #### Part 2:
 * Click on "Cam's Pizzeria" in the homepage.
 * Open developer tools and check in the console.
+* Slide the resize radio to see the time needed for resizing.
 * Scroll down the page to see the average time to generate last 10 frames.
 
 ##### Optimizations:
-1. Made changes to generate 20 random pizzas when page loads.
-2. Made changes to generate 150 sliding pizzas and update their positions for each frame.
+1. Cached document.querySelectorAll(".randomPizzaContainer") so that it won't be recalculated each time you go through the loop;
+2. Cached document.querySelectorAll('.mover') so that it won's be repeated every time updatePositions() is called.
+3. Since there are only five possible values of phase, I have calculated and stored them in cachedPhase also.
+4. Made changes to generate 150 sliding pizzas and update their positions for each frame.
