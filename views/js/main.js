@@ -522,6 +522,15 @@ function updatePositions() {
 
 // runs updatePositions on scroll
 window.addEventListener('scroll', updatePositions);
+function generateMore() {
+  if (window.innerHeight + document.body.scrollTop >= document.body.offsetHeight) {
+    for (var i = 2; i < 20; i++) {
+    var pizzasDiv = document.getElementById("randomPizzas");
+    pizzasDiv.appendChild(pizzaElementGenerator(i));
+    }
+  }
+}
+window.addEventListener('scroll', generateMore);
 
 // Generates the sliding pizzas when the page loads.
 // I have reduced pizzas to generate from 200 to 150 here. This reduced time needed to generate each frame.
