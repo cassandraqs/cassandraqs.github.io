@@ -1,7 +1,7 @@
 ### Getting started
 
 #### Part 1:
-* Open [this](cassandraqs.github.io) in your browser.
+* Open [this](http://cassandraqs.github.io) in your browser.
 * Paste cassandraqs.github.io into [Google Pagespeed Insights](https://developers.google.com/speed/pagespeed/insights/) to check score.
 
 ##### Optimizations:
