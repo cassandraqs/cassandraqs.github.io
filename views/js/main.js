@@ -503,13 +503,19 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // https://www.igvita.com/slides/2012/devtools-tips-and-tricks/jank-demo.html
 
 // Moves the sliding background pizzas based on scroll position
+// The value of document.querySelectorAll('.mover') has been stored in items and doesn't have to
+// be repeated every time updatePositions() is called. Since there are only five possible values of phase, I have 
+// calculated and stored them in cachedPhase also.
+var items = document.querySelectorAll('.mover');
+var cachedPhase = [];
+for (var j = 0; j < 5; j++) {
+  cachedPhase.push(Math.sin((document.body.scrollTop / 1250) + (j % 5)));
+}
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
-
-  var items = document.querySelectorAll('.mover');
   for (var i = 0; i < items.length; i++) {
-    var phase = Math.sin((document.body.scrollTop / 1250) + (i % 5));
+    var phase = cachedPhase[i % 5];
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
   }
 
@@ -527,7 +533,7 @@ function updatePositions() {
 window.addEventListener('scroll', updatePositions);
 
 // Generates the sliding pizzas when the page loads.
-// I have reduced pizzas to generate from 200 to 150 here. This reduced time needed to generate each frame.
+// I have reduced pizzas to generate from 200 to 150 here. This also reduced time needed to generate each frame.
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
