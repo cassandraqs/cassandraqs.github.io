@@ -399,6 +399,9 @@ var pizzaElementGenerator = function(i) {
 };
 
 // resizePizzas(size) is called when the slider in the "Our Pizzas" section of the website moves.
+// store the value of document.querySelectorAll(".randomPizzaContainer") in pizzaElements and use 
+// pizzaElements later when needed.
+var pizzaElements = document.querySelectorAll(".randomPizzaContainer");
 var resizePizzas = function(size) { 
   window.performance.mark("mark_start_resize");   // User Timing API function
 
@@ -449,11 +452,12 @@ var resizePizzas = function(size) {
   }
 
   // Iterates through pizza elements on the page and changes their widths
+
   function changePizzaSizes(size) {
-    for (var i = 0; i < document.querySelectorAll(".randomPizzaContainer").length; i++) {
-      var dx = determineDx(document.querySelectorAll(".randomPizzaContainer")[i], size);
-      var newwidth = (document.querySelectorAll(".randomPizzaContainer")[i].offsetWidth + dx) + 'px';
-      document.querySelectorAll(".randomPizzaContainer")[i].style.width = newwidth;
+    for (var i = 0; i < pizzaElements.length; i++) {
+      var dx = determineDx(pizzaElements[i], size);
+      var newwidth = (pizzaElements[i].offsetWidth + dx) + 'px';
+      pizzaElements[i].style.width = newwidth;
     }
   }
 
@@ -469,12 +473,11 @@ var resizePizzas = function(size) {
 window.performance.mark("mark_start_generating"); // collect timing data
 
 // This for-loop actually creates and appends all of the pizzas when the page loads
-// I have reduced the number of pizzas to generate from 100 to 20. This greatly reduced time needed
-// to generate pizzas on load.
-for (var i = 2; i < 20; i++) {
+for (var i = 2; i < 100; i++) {
   var pizzasDiv = document.getElementById("randomPizzas");
   pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
+
 
 // User Timing API again. These measurements tell you how long it took to generate the initial pizzas
 window.performance.mark("mark_end_generating");
@@ -522,15 +525,6 @@ function updatePositions() {
 
 // runs updatePositions on scroll
 window.addEventListener('scroll', updatePositions);
-function generateMore() {
-  if (window.innerHeight + document.body.scrollTop >= document.body.offsetHeight) {
-    for (var i = 2; i < 20; i++) {
-    var pizzasDiv = document.getElementById("randomPizzas");
-    pizzasDiv.appendChild(pizzaElementGenerator(i));
-    }
-  }
-}
-window.addEventListener('scroll', generateMore);
 
 // Generates the sliding pizzas when the page loads.
 // I have reduced pizzas to generate from 200 to 150 here. This reduced time needed to generate each frame.
