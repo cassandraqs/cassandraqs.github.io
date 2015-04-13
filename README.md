@@ -21,4 +21,4 @@
 1. Cached document.querySelectorAll(".randomPizzaContainer") so that it won't be recalculated each time you go through the loop;
 2. Cached document.querySelectorAll('.mover') so that it won's be repeated every time updatePositions() is called.
 3. Since there are only five possible values of phase, I have calculated and stored them in cachedPhase also.
-4. Made changes to generate 150 sliding pizzas and update their positions for each frame.
+4. Made changes to generate 100 sliding pizzas and update their positions for each frame.
