@@ -507,13 +507,14 @@ function logAverageFrame(times) {   // times is the array of User Timing measure
 // be repeated every time updatePositions() is called. Since there are only five possible values of phase, I have 
 // calculated and stored them in cachedPhase also.
 var items = document.querySelectorAll('.mover');
-var cachedPhase = [];
-for (var j = 0; j < 5; j++) {
-  cachedPhase.push(Math.sin((document.body.scrollTop / 1250) + (j % 5)));
-}
+
 function updatePositions() {
   frame++;
   window.performance.mark("mark_start_frame");
+  var cachedPhase = [];
+  for (var j = 0; j < 5; j++) {
+  cachedPhase.push(Math.sin((document.body.scrollTop / 1250) + (j % 5)));
+  }
   for (var i = 0; i < items.length; i++) {
     var phase = cachedPhase[i % 5];
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
