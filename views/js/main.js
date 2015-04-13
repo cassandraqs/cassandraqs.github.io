@@ -401,8 +401,8 @@ var pizzaElementGenerator = function(i) {
 
 // resizePizzas(size) is called when the slider in the "Our Pizzas" section of the website moves.
 // store the value of document.querySelectorAll(".randomPizzaContainer") in pizzaElements and use 
-// pizzaElements later when needed.
-var pizzaElements = document.querySelectorAll(".randomPizzaContainer");
+// pizzaElements when needed.
+
 var resizePizzas = function(size) { 
   window.performance.mark("mark_start_resize");   // User Timing API function
 
@@ -425,15 +425,7 @@ var resizePizzas = function(size) {
 
   changeSliderLabel(size);
 
-  // Returns the size difference to change a pizza element from one size to another. Called by changePizzaSlices(size).
-  function determineDx (elem, size) {
-    var oldwidth = elem.offsetWidth;
-    var windowwidth = document.querySelector("#randomPizzas").offsetWidth;
-    var oldsize = oldwidth / windowwidth;
-
-    // TODO: change to 3 sizes? no more xl?
-    // Changes the slider value to a percent width
-    function sizeSwitcher (size) {
+  function sizeSwitcher (size) {
       switch(size) {
         case "1":
           return 0.25;
@@ -444,20 +436,18 @@ var resizePizzas = function(size) {
         default:
           console.log("bug in sizeSwitcher");
       }
-    }
-
-    var newsize = sizeSwitcher(size);
-    var dx = (newsize - oldsize) * windowwidth;
-
-    return dx;
   }
+
 
   // Iterates through pizza elements on the page and changes their widths
 
   function changePizzaSizes(size) {
+    var newsize = sizeSwitcher(size);
+    var windowwidth = document.querySelector("#randomPizzas").offsetWidth;
+    var newwidth = (newsize * windowwidth) + 'px';
+    // By manual calculation, I proved that newwidth is a constant w.r.t i. 
+    // We don't really need function determineDx here.
     for (var i = 0; i < pizzaElements.length; i++) {
-      var dx = determineDx(pizzaElements[i], size);
-      var newwidth = (pizzaElements[i].offsetWidth + dx) + 'px';
       pizzaElements[i].style.width = newwidth;
     }
   }
@@ -478,8 +468,7 @@ for (var i = 2; i < 100; i++) {
   var pizzasDiv = document.getElementById("randomPizzas");
   pizzasDiv.appendChild(pizzaElementGenerator(i));
 }
-
-
+var pizzaElements = document.querySelectorAll(".randomPizzaContainer");
 // User Timing API again. These measurements tell you how long it took to generate the initial pizzas
 window.performance.mark("mark_end_generating");
 window.performance.measure("measure_pizza_generation", "mark_start_generating", "mark_end_generating");
