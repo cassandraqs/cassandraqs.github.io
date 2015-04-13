@@ -18,7 +18,8 @@ cameron *at* udacity *dot* com
 
 // As you may have realized, this website randomly generates pizzas.
 // Here are arrays of all possible pizza ingredients.
-var pizzaIngredients = {};
+var pizzaIngredients = {},
+    items = [];
 pizzaIngredients.meats = [
   "Pepperoni",
   "Sausage",
@@ -512,7 +513,6 @@ function updatePositions() {
   for (var j = 0; j < 5; j++) {
     cachedPhase.push(Math.sin((document.body.scrollTop / 1250) + (j % 5)));
   }
-  var items = document.querySelectorAll('.mover');
   for (var i = 0; i < items.length; i++) {
     var phase = cachedPhase[i % 5];
     items[i].style.left = items[i].basicLeft + 100 * phase + 'px';
@@ -533,6 +533,7 @@ window.addEventListener('scroll', updatePositions);
 
 // Generates the sliding pizzas when the page loads.
 // I have reduced pizzas to generate from 200 to 100 here. This also reduced time needed to generate each frame.
+// I have updated the value of items here so it won't be repeated everytime updatepositions is called.
 document.addEventListener('DOMContentLoaded', function() {
   var cols = 8;
   var s = 256;
@@ -546,5 +547,6 @@ document.addEventListener('DOMContentLoaded', function() {
     elem.style.top = (Math.floor(i / cols) * s) + 'px';
     document.querySelector("#movingPizzas1").appendChild(elem);
   }
+  items = document.querySelectorAll('.mover');
   updatePositions();
 });
